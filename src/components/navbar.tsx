@@ -3,28 +3,40 @@
 import Link from "next/link";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const { setTheme, theme } = useTheme();
-
-  console.log({ theme });
+  const pathname = usePathname();
 
   return (
-    <div className="flex justify-between items-center border w-full border-b max-w-[1920px] fixed top-0 p-[30px] r-[50%] text-sm uppercase dark:text-white">
-      <h2 className="font-bold">Elizabeth Alcalá</h2>
-      <div className="flex items-center text-xs">
-        <Link href="/blog" className="font-medium px-8">
-          Blog
-        </Link>
-        <Link href="/about" className="font-medium px-8">
-          About
-        </Link>
-        <button className="px-4" name="dark-mode" onClick={() => setTheme("dark")}>
-          <Moon size={16} strokeWidth={1} />
-        </button>
-        <button className="px-4" name="light-mode" onClick={() => setTheme("light")}>
-          <Sun size={16} strokeWidth={1} />
-        </button>
+    <div className="flex justify-between sm:items-center border-b w-full max-w-[1920px] fixed top-0 p-6 r-[50%] text-sm uppercase dark:text-white">
+      <Link href="/">
+        <h2 className="font-bold">Elizabeth Alcalá</h2>
+      </Link>
+      <div className="flex flex-col items-end sm:items-center sm:flex-row text-xs">
+        <div className="flex items-center space-x-8 mt-1 sm:mt-0">
+          <Link
+            href="/blog"
+            className={pathname === "/blog" ? "font-bold" : "font-medium"}
+          >
+            Blog
+          </Link>
+          <Link
+            href="/about"
+            className={pathname === "/about" ? "font-bold" : "font-medium"}
+          >
+            About
+          </Link>
+        </div>
+        <div className="flex items-center space-x-4 mt-4 sm:mt-0 sm:pl-8">
+          <button name="dark-mode" onClick={() => setTheme("dark")}>
+            <Moon size={16} strokeWidth={theme === "dark" ? 2 : 1} />
+          </button>
+          <button name="light-mode" onClick={() => setTheme("light")}>
+            <Sun size={16} strokeWidth={theme === "light" ? 2 : 1} />
+          </button>
+        </div>
       </div>
     </div>
   );
