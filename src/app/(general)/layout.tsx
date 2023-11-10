@@ -12,7 +12,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Navbar />
-      {children}
+      <main className="flex min-h-screen flex-col lg:w-[960px] xl:w-[1024px] mx-auto mt-32">
+        {children}
+      </main>
     </>
   );
 }
