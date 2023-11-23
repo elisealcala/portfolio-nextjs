@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 
 const Navbar = () => {
-  const { setTheme, theme } = useTheme();
+  const { setTheme } = useTheme();
   const pathname = usePathname();
 
   return (
@@ -31,10 +31,10 @@ const Navbar = () => {
         </div>
         <div className="flex items-center space-x-4 mt-4 sm:mt-0 sm:pl-8">
           <button name="dark-mode" onClick={() => setTheme("dark")}>
-            <Moon size={16} strokeWidth={theme === "dark" ? 2 : 1} />
+            <Moon size={16} strokeWidth={2} />
           </button>
           <button name="light-mode" onClick={() => setTheme("light")}>
-            <Sun size={16} strokeWidth={theme === "light" ? 2 : 1} />
+            <Sun size={16} strokeWidth={2} />
           </button>
         </div>
       </div>
