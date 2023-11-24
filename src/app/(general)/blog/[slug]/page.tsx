@@ -1,13 +1,8 @@
-import { getDocumentBySlug, getDocumentSlugs, load } from "outstatic/server";
+import { getDocumentBySlug, getDocumentSlugs } from "outstatic/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { OstDocument } from "outstatic";
 import Code from "@/components/code";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-
-type Post = {
-  tags: { value: string; label: string }[];
-} & OstDocument;
 
 interface Params {
   params: {
@@ -67,30 +62,6 @@ async function getData({ params }: Params) {
     ...post,
   };
 }
-
-// async function getData({ params }: Params) {
-//   const db = await load();
-
-//   const post = await db
-//     .find<Post>({ collection: "posts", slug: params.slug }, [
-//       "title",
-//       "publishedAt",
-//       "description",
-//       "slug",
-//       "author",
-//       "content",
-//       "coverImage",
-//     ])
-//     .first();
-
-//   if (!post) {
-//     notFound();
-//   }
-
-//   return {
-//     ...post,
-//   };
-// }
 
 export async function generateStaticParams() {
   const posts = getDocumentSlugs("posts");
