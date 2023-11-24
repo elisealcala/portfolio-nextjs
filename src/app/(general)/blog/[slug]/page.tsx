@@ -80,6 +80,11 @@ const components = {
       {props.children}
     </h2>
   ),
+  a: (props: any) => (
+    <a {...props} className="text-base font-base leading-[24px] text-cyan-600">
+      {props.children}
+    </a>
+  ),
   pre: (props: any) => {
     const className = props.children.props.className || "";
     const matches = className.match(/language-(?<lang>.*)/);

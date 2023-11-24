@@ -10,7 +10,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex justify-between sm:items-center border-b w-full max-w-[1920px] fixed top-0 p-6 r-[50%] text-sm uppercase dark:text-white">
+    <div className="flex justify-between sm:items-center border-b w-full max-w-[1920px] fixed top-0 p-6 r-[50%] text-sm uppercase dark:text-white z-9">
       <Link href="/">
         <h2 className="font-bold">Elizabeth Alcalá</h2>
       </Link>
