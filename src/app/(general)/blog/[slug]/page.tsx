@@ -1,29 +1,54 @@
-import { getDocumentBySlug } from "outstatic/server";
+import { getDocumentBySlug, getDocumentSlugs, load } from "outstatic/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { OstDocument } from "outstatic";
 import Code from "@/components/code";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-type Props = {
-  params: { slug: string };
-};
+type Post = {
+  tags: { value: string; label: string }[];
+} & OstDocument;
 
-// export async function generateMetadata({ params }: Props): Promise<Metadata> {
-//   const post = getDocumentBySlug("posts", params.slug, [
-//     "title",
-//     "publishedAt",
-//     "description",
-//     "slug",
-//     "author",
-//     "content",
-//     "coverImage",
-//   ]);
+interface Params {
+  params: {
+    slug: string;
+  };
+}
 
-//   return {
-//     title: post?.title,
-//     description: post?.description,
-//   };
-// }
-async function getData(params: { slug: string }) {
+export async function generateMetadata(params: Params): Promise<Metadata> {
+  const post = await getData(params);
+
+  if (!post) {
+    return {};
+  }
+
+  return {
+    title: post.title,
+    description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      type: "article",
+      url: "",
+      images: [
+        {
+          url: "",
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: "",
+    },
+  };
+}
+
+async function getData({ params }: Params) {
   const post = getDocumentBySlug("posts", params.slug, [
     "title",
     "publishedAt",
@@ -34,9 +59,42 @@ async function getData(params: { slug: string }) {
     "coverImage",
   ]);
 
+  if (!post) {
+    notFound();
+  }
+
   return {
     ...post,
   };
+}
+
+// async function getData({ params }: Params) {
+//   const db = await load();
+
+//   const post = await db
+//     .find<Post>({ collection: "posts", slug: params.slug }, [
+//       "title",
+//       "publishedAt",
+//       "description",
+//       "slug",
+//       "author",
+//       "content",
+//       "coverImage",
+//     ])
+//     .first();
+
+//   if (!post) {
+//     notFound();
+//   }
+
+//   return {
+//     ...post,
+//   };
+// }
+
+export async function generateStaticParams() {
+  const posts = getDocumentSlugs("posts");
+  return posts.map((slug) => ({ slug }));
 }
 
 const components = {
@@ -64,7 +122,7 @@ const components = {
   },
 };
 
-const BlogSlugPage = async ({ params }: { params: { slug: string } }) => {
+const BlogSlugPage = async (params: Params) => {
   const data = await getData(params);
 
   return (
