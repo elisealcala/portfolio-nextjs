@@ -1,7 +1,28 @@
 import { getDocumentBySlug } from "outstatic/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Code from "@/components/code";
+import type { Metadata } from "next";
 
+type Props = {
+  params: { slug: string };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const post = getDocumentBySlug("posts", params.slug, [
+    "title",
+    "publishedAt",
+    "description",
+    "slug",
+    "author",
+    "content",
+    "coverImage",
+  ]);
+
+  return {
+    title: post?.title,
+    description: post?.description,
+  };
+}
 async function getData(params: { slug: string }) {
   const post = getDocumentBySlug("posts", params.slug, [
     "title",
