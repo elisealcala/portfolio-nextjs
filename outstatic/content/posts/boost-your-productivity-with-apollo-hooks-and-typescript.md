@@ -1,11 +1,14 @@
 ---
-title: Boost your productivity with apollo hooks and typescript.
-status: published
-slug: boost-your-productivity-with-apollo-hooks-and-typescript
-description: Generate types with apollo codegen.
-publishedAt: 2020-06-27T13:19:02.635Z
+title: 'Boost your productivity with apollo hooks and typescript.'
+status: 'published'
+slug: 'boost-your-productivity-with-apollo-hooks-and-typescript'
+description: 'Generate types with apollo codegen.'
+author:
+  name: 'Elizabeth Alcalá'
+publishedAt: '2020-06-27T13:19:02.635Z'
 ---
-In a world where Typescript is becoming an essential part (almost required) of many web applications, it's very useful to know how to use it with the many libraries that are in our current stack. 
+
+In a world where Typescript is becoming an essential part (almost required) of many web applications, it's very useful to know how to use it with the many libraries that are in our current stack.
 
 If you work on a React app which already uses Typescript, and you also use Apollo, this guide will help to start using Typescript with it, to take advantage of the beautiful work of static typing.
 
@@ -48,7 +51,7 @@ export default App;
 
 Now that we configured Apollo in our app, let's write some queries to get the data from the API.
 
-Let's create a new file called `queries.ts`  on the root of the project and add our first query to get the characters.
+Let's create a new file called `queries.ts` on the root of the project and add our first query to get the characters.
 
 ```typescript
 import { gql } from 'apollo-boost';
@@ -114,15 +117,15 @@ export default Characters;
 
 Let's break down this to understand it better.
 
-- **useQuery**   According to Apollo documentation, this is the primary API for executing queries in an Apollo application, you don't need a High Order Component anymore, just use `useQuery` and it will return an object that contains `loading`, `error`, and `data` properties.
+- **useQuery** According to Apollo documentation, this is the primary API for executing queries in an Apollo application, you don't need a High Order Component anymore, just use `useQuery` and it will return an object that contains `loading`, `error`, and `data` properties.
 
-- **charactersQuery**  This is the query we write before, you passed it to the `useQuery` hook and it will return the data.
+- **charactersQuery** This is the query we write before, you passed it to the `useQuery` hook and it will return the data.
 
-Import this new `Characters` component into the  `App`, and you will see the data from all the characters.
+Import this new `Characters` component into the `App`, and you will see the data from all the characters.
 
 ## Generate Types.
 
-This is my favorite part, you can generate the types for the queries, this will highly increase your productivity writing code,   **apollo codegen** is a tool that allows us to do exactly that.
+This is my favorite part, you can generate the types for the queries, this will highly increase your productivity writing code, **apollo codegen** is a tool that allows us to do exactly that.
 
 Previously we installed the `apollo` library so now we are going to create a configuration file `apollo.config.js` on the root of the project.
 
@@ -153,7 +156,7 @@ The **tagName** flag is the name of the template literal tag used, in this case,
 
 Check the [documentation](https://github.com/apollographql/apollo-tooling#apollo-clientcodegen-output) to know what other options you can set.
 
-So now you are ready to run `yarn run apollo:codegen ` on the console and see what happens.
+So now you are ready to run `yarn run apollo:codegen` on the console and see what happens.
 
 ![Terminal](https://dev-to-uploads.s3.amazonaws.com/i/fsl9gdr5vqzwnevh5j1a.png)
 
@@ -171,7 +174,7 @@ import { charactersQuery, charactersQueryVariables } from './types/charactersQue
 
 const Characters = () => {
   const { data } = useQuery<charactersQuery, charactersQueryVariables>(CHARACTERS_QUERY);
-  
+
   return (
     <pre>{JSON.stringify(data, null, 2)}</pre>
   )
@@ -199,3 +202,4 @@ const { data, loading } = useQuery<charactersQuery, charactersQueryVariables>(CH
 ## Conclusion
 
 Generally, I tried to use Typescript for all my projects and having the types for the queries and mutations saved me a lot of time, I hope you find it useful.
+
