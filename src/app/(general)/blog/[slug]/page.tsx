@@ -1,10 +1,8 @@
 import { getDocumentBySlug, getDocumentSlugs } from "outstatic/server";
-import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Code from "@/components/code";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 
 interface Props {
   params: Promise<{
@@ -90,7 +88,7 @@ const components = {
   ),
   pre: (props: any) => {
     const className = props.children.props.className || "";
-    const matches = className.match(/language-(?<lang>.*)/);
+    const matches = className.match(/language-(.*)/);
 
     return (
       <Code
