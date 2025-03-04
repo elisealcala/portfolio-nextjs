@@ -1,17 +1,20 @@
 import { getDocumentBySlug, getDocumentSlugs } from "outstatic/server";
+import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Code from "@/components/code";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
-interface Params {
-  params: {
+interface Props {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export async function generateMetadata(params: Params): Promise<Metadata> {
-  const post = await getData(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { slug } = await props.params;
+  const post = await getData(slug);
 
   if (!post) {
     return {};
@@ -43,8 +46,8 @@ export async function generateMetadata(params: Params): Promise<Metadata> {
   };
 }
 
-async function getData({ params }: Params) {
-  const post = getDocumentBySlug("posts", params.slug, [
+async function getData(slug: string) {
+  const post = getDocumentBySlug("posts", slug, [
     "title",
     "publishedAt",
     "description",
@@ -98,8 +101,9 @@ const components = {
   },
 };
 
-const BlogSlugPage = async (params: Params) => {
-  const data = await getData(params);
+const BlogSlugPage = async (props: Props) => {
+  const { slug } = await props.params;
+  const data = await getData(slug);
 
   return (
     <article className="w-full sm:w-[700px] mx-auto mt-8 mb-16">
