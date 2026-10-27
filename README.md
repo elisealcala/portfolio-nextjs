@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Elizabeth Alcalá · Portfolio
 
-## Getting Started
+A static Next.js portfolio with selected professional experience, six dated engineering
+ideas, and the nine original 2020 articles. The interface uses React, TypeScript, Tailwind
+CSS, and locally hosted fonts.
 
-First, run the development server:
+## Local preview
 
-```bash
+Use Node 22.13 or newer.
+
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To preview the production export:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+npm run build
+npm run preview
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+The production preview normally serves http://localhost:8787. It needs no AI credentials
+or database. The Worker only serves assets and returns 404 for `/api` requests.
 
-## Learn More
+## Content
 
-To learn more about Next.js, take a look at the following resources:
+- `src/lib/experience.ts` contains selected experience curated from the supplied résumé
+  and public LinkedIn profile. Consulting employers and clients are identified separately.
+  This is a manual, reviewed snapshot, not a continuous LinkedIn integration.
+- `content/notes/` contains public working ideas. Preserve `publishedAt` on edits and set
+  `updatedAt` to the public revision date. Cards show the latest date; article headers
+  distinguish publication and revision. Notes are sorted by the latest date.
+- Existing articles remain in `outstatic/content/posts/`, preserving their original URLs
+  and 2020 dates. Outstatic is no longer used as a CMS.
+- Notes require title, description, slug, publishedAt, status, topic, and kind. Drafts
+  stay out of public pages. The filename must match the slug.
+- Builds never read the Obsidian vault. Use generic public examples and avoid internal
+  source code, links, private identifiers, or unverified outcomes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The existing Cloudflare Worker identity is retained in `wrangler.jsonc` to avoid creating
+an unrelated deployment. Static assets use Cloudflare Free; no D1 or OpenAI configuration
+is required for this portfolio.
 
-## Deploy on Vercel
+Set `NEXT_PUBLIC_SITE_URL` in `.env.local` to the public HTTPS origin before building so
+canonical links and the sitemap use the correct hostname. Authenticate with your own
+Cloudflare account, then build and deploy:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```sh
+npm run build
+npm run deploy
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The Knowledge Explorer has been removed from the public navigation, routes, sitemap, and
+active Worker. Its source is retained for a future separate app; see
+`experiments/knowledge-explorer/README.md`. Old lab URLs resolve to 404.
+
+## Verification
+
+Complete implementation and test-writing first, then delegate all checks to the verifier:
+
+```sh
+npm run build
+npm run typecheck
+npm run lint
+npm test
+npx wrangler deploy --dry-run --outdir .generated/worker
+```
+
+Check desktop/mobile, keyboard navigation, themes, experience content, article dates, all
+nine legacy routes, and the absence of the retired lab/API. Existing agent tests are
+retained as regression coverage for the parked source; they do not activate it.
+
+## Dependency audit notes
+
+On October 22, 2026, the production dependency audit reported zero vulnerabilities and
+zero criticals in the full audit. Nine development-only advisory paths remained in the
+Tailwind/ESLint/CSS tooling. This records that audit date, not a new audit result.
