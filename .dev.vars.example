@@ -1,0 +1,7 @@
+# Copy to .dev.vars for local Worker development. Never commit real secrets.
+OPENAI_API_KEY=
+TURNSTILE_SECRET_KEY=
+RATE_LIMIT_SALT=
+# Used only by the evaluation CLI, never shipped to the browser.
+EVAL_TOKEN=
+ALLOWED_ORIGIN=http://localhost:8787
