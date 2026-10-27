@@ -1,22 +1,24 @@
 import Link from "next/link";
-
-type BlogCardTypes = {
-  title: string;
+import { ArrowUpRight } from "lucide-react";
+import { formatDate } from "@/lib/content";
+export default function BlogCard({
+  slug,
+  title,
+  date,
+}: {
   slug: string;
-  description?: string;
+  title: string;
   date: string;
-};
-
-const BlogCard = ({ title, slug, description, date }: BlogCardTypes) => {
+}) {
   return (
-    <div>
-      <Link href={`/blog/${slug}`}>
-        <h2 className="text-[18px] font-bold my-2">{title}</h2>
-      </Link>
-      <p className="text-sm">{description}</p>
-      <p className="text-xs mt-2 font-light">{new Date(date).toDateString()}</p>
-    </div>
+    <Link href={`/blog/${slug}`} className="archive-row">
+      <time dateTime={date} className="mono">
+        {formatDate(date)}
+      </time>
+      <div>
+        <h2>{title}</h2>
+      </div>
+      <ArrowUpRight size={20} aria-hidden="true" />
+    </Link>
   );
-};
-
-export default BlogCard;
+}

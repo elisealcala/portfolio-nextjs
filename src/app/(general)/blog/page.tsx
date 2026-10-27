@@ -1,33 +1,30 @@
+import type { Metadata } from "next";
+import { PageIntro } from "@/components/page-intro";
 import BlogCard from "@/components/blog-card";
-import { getDocuments } from "outstatic/server";
-
-async function getData() {
-  const posts = getDocuments("posts", ["title", "description", "publishedAt", "slug"]);
-
-  const sortedPosts = posts.sort(
-    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  );
-
-  return sortedPosts;
-}
-
-const BlogPage = async () => {
-  const posts = await getData();
-
-  return (
-    <div className="flex flex-col">
-      {posts.map((post) => (
-        <div className="mb-[10px] mb-8" key={post.slug}>
-          <BlogCard
-            slug={post.slug}
-            title={post.title}
-            description={post.description}
-            date={post.publishedAt.toString()}
-          />
-        </div>
-      ))}
-    </div>
-  );
+import { getArticles } from "@/lib/content";
+export const metadata: Metadata = {
+  title: "Writing archive",
+  description:
+    "The early chapters: original posts on React, TypeScript, GraphQL, and building for the web.",
 };
-
-export default BlogPage;
+export default function BlogPage() {
+  const posts = getArticles("posts");
+  return (
+    <>
+      <PageIntro
+        title={
+          <>
+            Writing <span className="accent-text">archive.</span>
+          </>
+        }
+      >
+        Early writing from 2020. Some examples use older APIs.
+      </PageIntro>
+      <div className="archive-list">
+        {posts.map((p) => (
+          <BlogCard key={p.slug} slug={p.slug} title={p.title} date={p.publishedAt} />
+        ))}
+      </div>
+    </>
+  );
+}

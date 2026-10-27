@@ -1,45 +1,48 @@
 "use client";
-
 import Link from "next/link";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-
-const Navbar = () => {
-  const { setTheme } = useTheme();
+const links = [
+  { href: "/experience", label: "Experience" },
+  { href: "/notes", label: "Notes" },
+  { href: "/blog", label: "Archive" },
+  { href: "/about", label: "About" },
+];
+export default function Navbar() {
+  const { setTheme, resolvedTheme } = useTheme();
   const pathname = usePathname();
-
   return (
-    <div className="flex justify-between sm:items-center border-b w-full max-w-[1920px] fixed top-0 p-6 r-[50%] text-sm uppercase dark:text-white z-9">
-      <Link href="/">
-        <h2 className="font-bold">Elizabeth Alcalá</h2>
-      </Link>
-      <div className="flex flex-col items-end sm:items-center sm:flex-row text-xs">
-        <div className="flex items-center space-x-8 mt-1 sm:mt-0">
-          <Link
-            href="/blog"
-            className={pathname === "/blog" ? "font-bold" : "font-medium"}
-          >
-            Blog
-          </Link>
-          <Link
-            href="/about"
-            className={pathname === "/about" ? "font-bold" : "font-medium"}
-          >
-            About
-          </Link>
-        </div>
-        <div className="flex items-center space-x-4 mt-4 sm:mt-0 sm:pl-8">
-          <button name="dark-mode" onClick={() => setTheme("dark")}>
-            <Moon size={16} strokeWidth={2} />
-          </button>
-          <button name="light-mode" onClick={() => setTheme("light")}>
-            <Sun size={16} strokeWidth={2} />
-          </button>
-        </div>
+    <header className="site-header">
+      <div className="container nav-inner">
+        <Link href="/" className="brand" aria-label="Elizabeth Alcalá, home">
+          <span className="wordmark">
+            ea<span>.</span>
+          </span>
+          <span className="brand-name">
+            Elizabeth Alcalá<span>SOFTWARE ENGINEER</span>
+          </span>
+        </Link>
+        <nav aria-label="Main navigation">
+          {links.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              aria-current={pathname.startsWith(href) ? "page" : undefined}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+        <button
+          className="theme-toggle"
+          aria-label="Toggle color theme"
+          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+        >
+          <Moon className="moon-icon" size={17} aria-hidden="true" />
+          <Sun className="sun-icon" size={17} aria-hidden="true" />
+        </button>
       </div>
-    </div>
+    </header>
   );
-};
-
-export default Navbar;
+}
