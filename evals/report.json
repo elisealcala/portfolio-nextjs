@@ -1,0 +1,22 @@
+{
+  "status": "not_run",
+  "model": "gpt-6-luna",
+  "date": null,
+  "cases": 30,
+  "answerableCases": 20,
+  "unsupportedCases": 5,
+  "adversarialCases": 5,
+  "citationValidity": null,
+  "supportedAnswerRate": null,
+  "humanReviewed": false,
+  "note": "Live evaluation requires deployment credentials and uses the same monthly budget gate. No model-quality score is claimed before execution and review.",
+  "estimatedCostUsd": null,
+  "medianLatencyMs": null,
+  "configuration": {
+    "reasoning": "none",
+    "serviceTier": "default",
+    "maxModelRequests": 4,
+    "maxToolCalls": 3,
+    "maxOutputTokens": 1000
+  }
+}
