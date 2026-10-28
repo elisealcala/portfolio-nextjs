@@ -4,6 +4,7 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 const links = [
+  { href: "/projects", label: "Projects" },
   { href: "/experience", label: "Experience" },
   { href: "/notes", label: "Notes" },
   { href: "/blog", label: "Archive" },

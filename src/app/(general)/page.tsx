@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { getArticles } from "@/lib/content";
 import { NoteCard } from "@/components/note-card";
 import { ExperienceList } from "@/components/experience-list";
+import { ProjectShowcase } from "@/components/project-showcase";
 export default function Home() {
   const notes = getArticles("notes");
   return (
@@ -34,6 +35,15 @@ export default function Home() {
             </Link>
           </div>
         </div>
+      </section>
+      <section className="section" aria-labelledby="projects-heading">
+        <div className="section-heading" data-reveal>
+          <h2 id="projects-heading">Projects.</h2>
+          <Link className="text-link" href="/projects">
+            All projects <ArrowRight size={16} />
+          </Link>
+        </div>
+        <ProjectShowcase />
       </section>
       <section
         className="section experience-section"
