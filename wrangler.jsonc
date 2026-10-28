@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "elizabeth-engineering-lab",
+  "name": "my-portfolio",
   "main": "worker/portfolio.ts",
   "compatibility_date": "2026-10-22",
   "workers_dev": true,
